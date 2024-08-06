@@ -1,6 +1,10 @@
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
 from pydantic import EmailStr
+from datetime import datetime, timedelta
+
+from App.users.DAO import UsersDAO
+from App.config import settings
+
 import jwt
 
 
@@ -23,14 +27,15 @@ def create_password_token(data: dict) -> str:
     expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({'exp': expire})
     encoded_token = jwt.encode(
-        to_encode, 'asdasdasdasd', 'HS256'
+        to_encode, settings.SECRET_KEY, settings.ALGORITHM_KEY
     )
+    print(settings.SECRET_KEY, settings.ALGORITHM_KEY, settings.DB_HOST)
     return encoded_token
 
 
-async def authenticate_user(
+async def  authenticate_user(
     email: EmailStr, 
-    passowrd: str
+    password: str
     ):
     user = await UsersDAO.find_one_or_none(email=email)
     if not user and not verify_password(password, user.password):

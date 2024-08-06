@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Query, Depends
 from typing import Optional, Union
-from datetime import date
 from pydantic import BaseModel, Field
+from datetime import date
+
 from App.bookings.router import router as router_bookings
 from App.users.router import router as router_users
 

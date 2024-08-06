@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
     DATABASE_URL: str = None
+    SECRET_KEY: str
+    ALGORITHM_KEY: str
+    
 
     @model_validator(mode="before")
     def get_database_url(cls, values):
